@@ -63,5 +63,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
     },
+    colorTextWhite:{
+        color: "white"
+    },
 });
 export default styles;

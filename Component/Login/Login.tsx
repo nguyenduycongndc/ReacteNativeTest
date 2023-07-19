@@ -5,44 +5,45 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { environment } from '../../environments/environments';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ navigation }: any) => {
 
-    const [UserName, SetUserName] = useState("user1");
-    const [PassWord, SetPassWord] = useState("123456");
+    const [UserName, SetUserName] = useState("");
+    const [PassWord, SetPassWord] = useState("");
 
-    const configurationObject = {
-        method: 'post',
-        url: `${environment.apiUrl}Login/LoginUser`,
-        data: { userName: UserName, passWord: PassWord, },
-      };
+    // const configurationObject = {
+    //     method: 'post',
+    //     url: `${environment.apiUrl}Login/LoginUser`,
+    //     data: { userName: UserName, passWord: PassWord, },
+    // };
 
-    // const onClickLogin = async() => {
-    const onClickLogin = () => {
-        // const response = await fetch(`${environment.apiUrl}Login/LoginUser`, {
-        //     headers:{
-        //         "content-type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         userName: UserName,
-        //         passWord: PassWord,
-        //     }),
-        //     method: "POST",
-        // })
-        // console.log({response});
-        
-        axios.post(`${environment.apiUrl}Login/LoginUser`, {
-            userName: UserName,
-            passWord: PassWord,
-        })
-        // axios(configurationObject)
-            .then(response => {
-                console.log(response.data);
+    // const onClickLogin = async () => {
+    //     const response = await fetch(`${environment.apiUrl}Login/LoginUser`, {
+    //         headers: {
+    //             "content-type": "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //             userName: UserName,
+    //             passWord: PassWord,
+    //         }),
+    //         method: "POST",
+    //     })
+    //     console.log({ response });
+    // }
+
+     const onClickLogin = () => {
+            axios.post(`${environment.apiUrl}Login/LoginUser`, {
+                userName: UserName,
+                passWord: PassWord,
             })
-            .catch(error => {
-                console.error({error});
-                
-            });
-        console.log({ UserName, PassWord })
+                // axios(configurationObject)
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error({ error });
+
+                });
+            console.log({ UserName, PassWord })
     }
     const onChangeUserName = (value: string) => {
         SetUserName(value);
@@ -50,6 +51,10 @@ const Login = () => {
     const onChangePassWord = (value: string) => {
         SetPassWord(value);
     };
+
+    const onClickRgisterScreen = () => {
+        navigation.navigate('Register')
+    }
 
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
@@ -91,7 +96,7 @@ const Login = () => {
             <View style={[styles.footerForm, styles.styleView]}>
                 <View style={styles.viewRow}>
                     <Text>Don't have a account? </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={onClickRgisterScreen}>
                         <Text style={styles.textRegister}>REGISTER HERE</Text>
                     </TouchableOpacity>
                 </View>

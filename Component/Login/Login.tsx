@@ -12,21 +12,34 @@ const Login = () => {
 
     const configurationObject = {
         method: 'post',
-        url: `${environment.apiUrl}/Login/LoginUser`,
+        url: `${environment.apiUrl}Login/LoginUser`,
         data: { userName: UserName, passWord: PassWord, },
       };
 
+    // const onClickLogin = async() => {
     const onClickLogin = () => {
-        // axios.post(`${environment.apiUrl}/Login/LoginUser`, {
-        //     userName: UserName,
-        //     passWord: PassWord,
+        // const response = await fetch(`${environment.apiUrl}Login/LoginUser`, {
+        //     headers:{
+        //         "content-type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         userName: UserName,
+        //         passWord: PassWord,
+        //     }),
+        //     method: "POST",
         // })
-        axios(configurationObject)
+        // console.log({response});
+        
+        axios.post(`${environment.apiUrl}Login/LoginUser`, {
+            userName: UserName,
+            passWord: PassWord,
+        })
+        // axios(configurationObject)
             .then(response => {
                 console.log(response.data);
             })
             .catch(error => {
-                console.error(error?.message);
+                console.error({error});
                 
             });
         console.log({ UserName, PassWord })

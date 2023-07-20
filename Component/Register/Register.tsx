@@ -18,7 +18,19 @@ const Register = ({ navigation }: any) => {
     const onChangeEmail = (value: string) => {
         SetEmail(value);
     };
-    const onClickRegister = () => {
+    const onClickRegister = async () => {
+        await axios.post(`${environment.apiUrl}Login/Register`, {
+            userName: UserName,
+            passWord: PassWord,
+            email: Email
+        })
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error({ error });
+
+            });
         console.log({ UserName, PassWord, Email });
     };
     const onClickBack = () => {

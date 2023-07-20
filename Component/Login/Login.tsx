@@ -7,14 +7,14 @@ import axios from 'axios';
 
 const Login = ({ navigation }: any) => {
 
-    const [UserName, SetUserName] = useState("");
-    const [PassWord, SetPassWord] = useState("");
+    const [UserName, SetUserName] = useState("user1");
+    const [PassWord, SetPassWord] = useState("123456");
 
-    // const configurationObject = {
-    //     method: 'post',
-    //     url: `${environment.apiUrl}Login/LoginUser`,
-    //     data: { userName: UserName, passWord: PassWord, },
-    // };
+    const configurationObject = {
+        method: 'post',
+        url: `${environment.apiUrl}Login/LoginUser`,
+        data: { userName: UserName, passWord: PassWord, },
+    };
 
     // const onClickLogin = async () => {
     //     const response = await fetch(`${environment.apiUrl}Login/LoginUser`, {
@@ -30,21 +30,23 @@ const Login = ({ navigation }: any) => {
     //     console.log({ response });
     // }
 
-     const onClickLogin = () => {
-            axios.post(`${environment.apiUrl}Login/LoginUser`, {
-                userName: UserName,
-                passWord: PassWord,
+    const onClickLogin = async () => {
+        // await axios.post(`${environment.apiUrl}Login/LoginUser`, {
+        //     userName: UserName,
+        //     passWord: PassWord,
+        // })
+        await axios(configurationObject)
+            .then(response => {
+                console.log(response.data);
+                navigation.navigate('Home');
             })
-                // axios(configurationObject)
-                .then(response => {
-                    console.log(response.data);
-                })
-                .catch(error => {
-                    console.error({ error });
+            .catch(error => {
+                console.error({ error });
 
-                });
-            console.log({ UserName, PassWord })
+            });
+        console.log({ UserName, PassWord })
     }
+    
     const onChangeUserName = (value: string) => {
         SetUserName(value);
     };
@@ -54,6 +56,10 @@ const Login = ({ navigation }: any) => {
 
     const onClickRgisterScreen = () => {
         navigation.navigate('Register')
+    }
+
+    const onClickForgotPassWord = () => {
+        navigation.navigate('SendOTP')
     }
 
     return (
@@ -84,7 +90,7 @@ const Login = ({ navigation }: any) => {
                         <TextInput secureTextEntry={true} placeholder='This PassWord' value={PassWord} onChangeText={onChangePassWord} />
                     </View>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onClickForgotPassWord}>
                     <Text style={styles.forgotPassWord}>Forgot PassWord?</Text>
                 </TouchableOpacity>
                 <Pressable style={styles.buttonLogin}>

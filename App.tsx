@@ -11,6 +11,8 @@ import Login from './Component/Login/Login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Register from './Component/Register/Register';
+import Home from './Component/Home/Home';
+import SendOTP from './Component/SendOTP/SendOTP';
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
@@ -19,6 +21,8 @@ function App(): JSX.Element {
         <Stack.Navigator>
           <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
           <Stack.Screen name="Register" component={Register} options={{headerShown: false}} />
+          <Stack.Screen name="Home" component={Home} options={{headerShown: false}} />
+          <Stack.Screen name="SendOTP" component={SendOTP} options={{headerShown: false}} />
         </Stack.Navigator>
       </NavigationContainer>
   );

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     },
     viewIcon: {
         justifyContent: "center",
-        padding: 10
+        padding: 10,
     },
     textFormLogin: {
         fontSize: 15,

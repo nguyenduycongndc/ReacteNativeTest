@@ -10,9 +10,9 @@ const Home = ({ navigation }: any) => {
     return (
         <ImageBackground source={require('../../Img/New6.jpg')} style={{ flex: 1 }}>
             <View>
-                <TouchableOpacity onPress={onClickBack}>
+                {/* <TouchableOpacity onPress={onClickBack}>
                     <Icon name="arrow-left" size={30} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </ImageBackground>
     )

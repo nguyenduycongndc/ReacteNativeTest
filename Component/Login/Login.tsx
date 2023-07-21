@@ -4,12 +4,24 @@ import styles from '../Style/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { environment } from '../../environments/environments';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 const Login = ({ navigation }: any) => {
 
     const [UserName, SetUserName] = useState("user1");
     const [PassWord, SetPassWord] = useState("123456");
-
+    const showToast = () => {
+        Toast.show({
+            type: 'success',
+            text1: 'Đăng nhập thành công!',
+        });
+    }
+    const showToastError = () => {
+        Toast.show({
+            type: 'error',
+            text1: 'Đăng nhập thất bại!',
+        });
+    }
     const configurationObject = {
         method: 'post',
         url: `${environment.apiUrl}Login/LoginUser`,
@@ -39,8 +51,10 @@ const Login = ({ navigation }: any) => {
             .then(response => {
                 console.log(response.data);
                 if (response.data.token != null) {
-                    navigation.navigate('Home');
+                    showToast();
+                    navigation.navigate('Root');
                 } else {
+                    showToastError();
                     console.error("Error");
                 }
             })
@@ -50,7 +64,7 @@ const Login = ({ navigation }: any) => {
             });
         console.log({ UserName, PassWord })
     }
-    
+
     const onChangeUserName = (value: string) => {
         SetUserName(value);
     };

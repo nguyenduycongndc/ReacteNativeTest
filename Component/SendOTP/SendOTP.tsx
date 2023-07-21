@@ -4,6 +4,7 @@ import styles from '../Style/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { environment } from '../../environments/environments';
 import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 const SendOTP = ({ navigation }: any) => {
     const [Email, SetEmail] = useState("useremail@gmail.com");
@@ -11,6 +12,23 @@ const SendOTP = ({ navigation }: any) => {
     const [Show, SetShow] = useState(false);
     const [PassWordNew, SetPassWordNew] = useState("");
     const [ConfirmPassWord, SetConfirmPassWord] = useState("");
+
+    const showToast = () => {
+        Toast.show({
+          type: 'success',
+          text1: 'Vui lòng kiểm tra mã OTP đã gửi đến email!!!',
+        //   text2: 'This is some something 👋'
+        });
+      }
+
+    const showToastError = () => {
+        Toast.show({
+          type: 'error',
+          text1: 'Thất bại! Vui lòng kiểm tra lại địa chỉ email? ',
+        //   text2: 'This is some something 👋'
+        });
+      }
+    
 
     const onChangeEmail = (value: string) => {
         SetEmail(value);
@@ -29,8 +47,10 @@ const SendOTP = ({ navigation }: any) => {
         await axios.post(`${environment.apiUrl}Login/SendOTP`, null, { params: { email: Email } })
             .then(response => {
                 if (response.data.data === true) {
+                    showToast();
                     SetShow(true);
                 } else {
+                    showToastError();
                     SetShow(false);
                 }
                 console.log(response.data);
@@ -52,7 +72,11 @@ const SendOTP = ({ navigation }: any) => {
             ConfirmPassWord: ConfirmPassWord
         })
             .then(response => {
-                response.data;
+                if (response.data.data === true) {
+                    navigation.navigate('Login');
+                } else {
+                    null;
+                }
                 console.log(response.data);
             })
             .catch(error => {

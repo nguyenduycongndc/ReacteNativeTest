@@ -6,31 +6,60 @@ import { environment } from '../../environments/environments';
 import axios from 'axios';
 
 const SendOTP = ({ navigation }: any) => {
-    const [Email, SetEmail] = useState("");
+    const [Email, SetEmail] = useState("useremail@gmail.com");
+    const [OTP, SetOTP] = useState("");
+    const [Show, SetShow] = useState(false);
+    const [PassWordNew, SetPassWordNew] = useState("");
+    const [ConfirmPassWord, SetConfirmPassWord] = useState("");
+
     const onChangeEmail = (value: string) => {
         SetEmail(value);
     };
+    const onChangeOTP = (value: string) => {
+        SetOTP(value);
+    };
+    const onChangePassWordNew = (value: string) => {
+        SetPassWordNew(value);
+    };
+    const onChangeConfirmPassWord = (value: string) => {
+        SetConfirmPassWord(value);
+    };
 
-    // const configurationObject = {
-    //     method: 'post',
-    //     url: `${environment.apiUrl}Login/SendOTP`,
-    //     Param: { email: Email },
-    // };
     const onClickSendOTP = async () => {
-        await axios.post(`${environment.apiUrl}Login/SendOTP`,{email: Email})
-        .then(response => {
+        await axios.post(`${environment.apiUrl}Login/SendOTP`, null, { params: { email: Email } })
+            .then(response => {
+                if (response.data.data === true) {
+                    SetShow(true);
+                } else {
+                    SetShow(false);
+                }
                 console.log(response.data);
             })
             .catch(error => {
                 console.error({ error });
 
             });
-        console.log({ Email });
     };
     const onClickBack = () => {
         navigation.navigate('Login')
     };
 
+    const onClickChangePassWord = async () => {
+        await axios.post(`${environment.apiUrl}Login/ForgotPassWord`, { 
+            Email: Email,
+            OTP: OTP,
+            PassWordNew: PassWordNew,
+            ConfirmPassWord: ConfirmPassWord
+        })
+            .then(response => {
+                response.data;
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error({ error });
+
+            });
+    };
     return (
         <ImageBackground source={require('../../Img/New7.jpg')} style={{ flex: 1 }}>
             <View>
@@ -53,11 +82,58 @@ const SendOTP = ({ navigation }: any) => {
                         <TextInput placeholder='This Email' value={Email} onChangeText={onChangeEmail} />
                     </View>
                 </View>
-                <Pressable style={styles.buttonLogin}>
-                    <TouchableOpacity onPress={onClickSendOTP}>
-                        <Text style={{ color: "white", fontSize: 20 }}>SendOTP</Text>
-                    </TouchableOpacity>
-                </Pressable >
+                {
+                    Show ? (
+                        <View>
+                            <View style={{ marginTop: "2%" }}>
+                                <Text style={[styles.textFormLogin]}>OTP</Text>
+                            </View>
+                            <View style={[styles.viewRowInput]}>
+                                <View style={[styles.viewIcon]}>
+                                    <Icon name="hashtag" />
+                                </View>
+                                <View>
+                                    <TextInput placeholder='This OTP' value={OTP} onChangeText={onChangeOTP} />
+                                </View>
+                            </View>
+                            <View style={{ marginTop: "2%" }}>
+                                <Text style={[styles.textFormLogin]}>PassWord New</Text>
+                            </View>
+                            <View style={[styles.viewRowInput]}>
+                                <View style={[styles.viewIcon]}>
+                                    <Icon name="lock" />
+                                </View>
+                                <View>
+                                    <TextInput secureTextEntry={true} placeholder='This PassWord New' value={PassWordNew} onChangeText={onChangePassWordNew} />
+                                </View>
+                            </View>
+                            <View style={{ marginTop: "2%" }}>
+                                <Text style={[styles.textFormLogin]}>Confirm PassWord</Text>
+                            </View>
+                            <View style={[styles.viewRowInput]}>
+                                <View style={[styles.viewIcon]}>
+                                    <Icon name="lock" />
+                                </View>
+                                <View>
+                                    <TextInput secureTextEntry={true} placeholder='This Confirm PassWord' value={ConfirmPassWord} onChangeText={onChangeConfirmPassWord} />
+                                </View>
+                            </View>
+                            <Pressable style={styles.buttonLogin}>
+                                <TouchableOpacity onPress={onClickChangePassWord} activeOpacity={0.1}>
+                                    <Text style={{ color: "white", fontSize: 20 }}>Send</Text>
+                                </TouchableOpacity>
+                            </Pressable >
+                        </View>
+                    ) : (
+                        <Pressable style={styles.buttonLogin}>
+                            <TouchableOpacity onPress={onClickSendOTP} activeOpacity={0.1}>
+                                <Text style={{ color: "white", fontSize: 20 }}>SendOTP</Text>
+                            </TouchableOpacity>
+                        </Pressable >
+                    )
+                }
+
+            </View>
         </ImageBackground>
     )
 }

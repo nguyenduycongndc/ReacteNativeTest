@@ -38,7 +38,11 @@ const Login = ({ navigation }: any) => {
         await axios(configurationObject)
             .then(response => {
                 console.log(response.data);
-                navigation.navigate('Home');
+                if (response.data.token != null) {
+                    navigation.navigate('Home');
+                } else {
+                    console.error("Error");
+                }
             })
             .catch(error => {
                 console.error({ error });

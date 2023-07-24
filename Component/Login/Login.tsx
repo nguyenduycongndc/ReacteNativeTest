@@ -1,15 +1,31 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Pressable, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Pressable, ImageBackground, ActivityIndicator } from 'react-native';
 import styles from '../Style/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { environment } from '../../environments/environments';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
 
+function LoadingAnimation() {
+    return (
+        <View style={styles.syleLoading}>
+            <ActivityIndicator size="large" />
+            <Text style={styles.textLoading}>Loading...</Text>
+        </View>
+    );
+}
 const Login = ({ navigation }: any) => {
-
     const [UserName, SetUserName] = useState("user1");
     const [PassWord, SetPassWord] = useState("123456");
+
+    const [loading, setLoading] = useState(false);
+
+    const showLoading = () => {
+        setLoading(true);
+    }
+    const hideLoading = () => {
+        setLoading(false);
+    }
     const showToast = () => {
         Toast.show({
             type: 'success',
@@ -47,20 +63,23 @@ const Login = ({ navigation }: any) => {
         //     userName: UserName,
         //     passWord: PassWord,
         // })
+        showLoading();
         await axios(configurationObject)
             .then(response => {
                 console.log(response.data);
                 if (response.data.token != null) {
                     showToast();
+                    hideLoading();
                     navigation.navigate('Root');
                 } else {
                     showToastError();
+                    hideLoading();
                     console.error("Error");
                 }
             })
             .catch(error => {
                 console.error({ error });
-
+                hideLoading();
             });
         console.log({ UserName, PassWord })
     }
@@ -82,6 +101,7 @@ const Login = ({ navigation }: any) => {
 
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
+            {loading && <LoadingAnimation />}
             <View style={[styles.headerForm, styles.styleView]}>
                 <Text style={styles.textLogin}>Login</Text>
             </View>
@@ -94,7 +114,7 @@ const Login = ({ navigation }: any) => {
                         <Icon name="user" />
                     </View>
                     <View>
-                        <TextInput placeholder='This UserName' value={UserName} onChangeText={onChangeUserName} />
+                        <TextInput placeholder='This UserName' editable={!loading} value={UserName} onChangeText={onChangeUserName} />
                     </View>
                 </View>
                 <View style={{ marginTop: "2%" }}>
@@ -105,7 +125,7 @@ const Login = ({ navigation }: any) => {
                         <Icon name="lock" />
                     </View>
                     <View>
-                        <TextInput secureTextEntry={true} placeholder='This PassWord' value={PassWord} onChangeText={onChangePassWord} />
+                        <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='This PassWord' value={PassWord} onChangeText={onChangePassWord} />
                     </View>
                 </View>
                 <TouchableOpacity onPress={onClickForgotPassWord}>
@@ -120,7 +140,7 @@ const Login = ({ navigation }: any) => {
             <View style={[styles.footerForm, styles.styleView]}>
                 <View style={styles.viewRow}>
                     <Text>Don't have a account? </Text>
-                    <TouchableOpacity onPress={onClickRgisterScreen}>
+                    <TouchableOpacity disabled={loading} onPress={onClickRgisterScreen}>
                         <Text style={styles.textRegister}>REGISTER HERE</Text>
                     </TouchableOpacity>
                 </View>

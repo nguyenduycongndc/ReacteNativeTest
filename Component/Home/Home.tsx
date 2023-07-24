@@ -6,7 +6,7 @@ const Home = ({ navigation }: any) => {
     const onClickBack = () => {
         navigation.navigate('Login')
     };
-
+    
     return (
         <ImageBackground source={require('../../Img/New6.jpg')} style={{ flex: 1 }}>
             <View>
@@ -15,6 +15,7 @@ const Home = ({ navigation }: any) => {
                 </TouchableOpacity> */}
             </View>
         </ImageBackground>
+        
     )
 }
 export default Home;

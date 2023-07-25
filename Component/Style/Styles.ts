@@ -81,5 +81,26 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 12,
     },
+    textStyle:{
+        fontSize: 20,
+        color:"#BFE591",
+    },
+    textStyleHeader:{
+        fontSize: 30,
+        color:"#BFE591",
+    },
+    buttonLogout: {
+        marginTop: "8%",
+        backgroundColor: "#BDB6B6",
+        justifyContent: "center",
+        padding: 10,
+        width: "100%",
+        alignItems: "center",
+        borderRadius: 50,
+    },
+    StyleFooterIndividual:{
+        paddingHorizontal:50,
+        marginHorizontal: 80,
+    },
 });
 export default styles;

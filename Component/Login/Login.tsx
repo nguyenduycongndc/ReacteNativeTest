@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Pressable, ImageBackground, ActivityIndicator } from 'react-native';
 import styles from '../Style/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { environment } from '../../environments/environments';
 import axios from 'axios';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function LoadingAnimation() {
     return (
@@ -16,10 +17,16 @@ function LoadingAnimation() {
 }
 const Login = ({ navigation }: any) => {
     const [UserName, SetUserName] = useState("user1");
+    //user1
     const [PassWord, SetPassWord] = useState("123456");
+    //123456
 
     const [loading, setLoading] = useState(false);
+    const [Token, setToken] = useState("");
+    const [RequireUserName, setRequireUserName] = useState(false);
+    const [RequirePassWord, setRequirePassWord] = useState(false);
 
+    
     const showLoading = () => {
         setLoading(true);
     }
@@ -63,14 +70,24 @@ const Login = ({ navigation }: any) => {
         //     userName: UserName,
         //     passWord: PassWord,
         // })
+        if (UserName == "") {
+            setRequireUserName(true)
+        }
+        if (PassWord == "") {
+            setRequirePassWord(true)
+        }
+        console.log(RequireUserName);
+        console.log(RequirePassWord);
         showLoading();
         await axios(configurationObject)
             .then(response => {
                 console.log(response.data);
                 if (response.data.token != null) {
+                    setToken(response.data.token);
                     showToast();
                     hideLoading();
                     navigation.navigate('Root');
+                    console.log(Token)
                 } else {
                     showToastError();
                     hideLoading();
@@ -82,7 +99,7 @@ const Login = ({ navigation }: any) => {
                 hideLoading();
             });
         console.log({ UserName, PassWord })
-    }
+    };
 
     const onChangeUserName = (value: string) => {
         SetUserName(value);
@@ -91,57 +108,84 @@ const Login = ({ navigation }: any) => {
         SetPassWord(value);
     };
 
-    const onClickRgisterScreen = () => {
+    const onClickRegisterScreen = () => {
         navigation.navigate('Register')
-    }
+    };
 
     const onClickForgotPassWord = () => {
         navigation.navigate('SendOTP')
-    }
+    };
+    const handleSaveToStorage = async () => {
+        try {
+            if (Token.length > 0) {
+                await AsyncStorage.setItem('Token', JSON.stringify(Token))
+            }
+        } catch (error) {
+            console.log({ error });
+        }
+    };
 
+
+    useEffect(() => {
+        handleSaveToStorage()
+    }, [Token])
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
             {loading && <LoadingAnimation />}
             <View style={[styles.headerForm, styles.styleView]}>
-                <Text style={styles.textLogin}>Login</Text>
+                <Text style={styles.textLogin}>Đăng Nhập</Text>
             </View>
             <View style={[styles.bodyForm]}>
                 <View>
-                    <Text style={styles.textFormLogin}>UserName</Text>
+                    <Text style={styles.textFormLogin}>Tài khoản</Text>
                 </View>
                 <View style={[styles.viewRowInput]}>
                     <View style={[styles.viewIcon]}>
                         <Icon name="user" />
                     </View>
                     <View>
-                        <TextInput placeholder='This UserName' editable={!loading} value={UserName} onChangeText={onChangeUserName} />
+                        <TextInput placeholder='Nhập tài khoản' editable={!loading} value={UserName} onChangeText={onChangeUserName} />
                     </View>
                 </View>
+                {(RequireUserName && UserName.length < 1) ? (
+                    <View>
+                        <Text style={{ color: 'red' }}>Tài khoản không được để trống!</Text>
+                    </View>
+                ) : (
+                    null
+                )}
                 <View style={{ marginTop: "2%" }}>
-                    <Text style={[styles.textFormLogin]}>PassWord</Text>
+                    <Text style={[styles.textFormLogin]}>Mật khẩu</Text>
                 </View>
                 <View style={[styles.viewRowInput]}>
                     <View style={[styles.viewIcon]}>
                         <Icon name="lock" />
                     </View>
                     <View>
-                        <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='This PassWord' value={PassWord} onChangeText={onChangePassWord} />
+                        <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu' value={PassWord} onChangeText={onChangePassWord} />
                     </View>
                 </View>
+                {(RequirePassWord && PassWord.length < 1) ? (
+                    <View>
+                        <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
+                    </View>
+                ) : (
+                    null
+                )}
                 <TouchableOpacity onPress={onClickForgotPassWord}>
-                    <Text style={styles.forgotPassWord}>Forgot PassWord?</Text>
+                    <Text style={styles.forgotPassWord}>Quên mật khẩu?</Text>
                 </TouchableOpacity>
                 <Pressable style={styles.buttonLogin}>
                     <TouchableOpacity onPress={onClickLogin}>
-                        <Text style={{ color: "white", fontSize: 20 }}>Login</Text>
+                        <Text style={{ color: "white", fontSize: 20 }}>Đăng nhập</Text>
                     </TouchableOpacity>
                 </Pressable >
             </View>
             <View style={[styles.footerForm, styles.styleView]}>
                 <View style={styles.viewRow}>
-                    <Text>Don't have a account? </Text>
-                    <TouchableOpacity disabled={loading} onPress={onClickRgisterScreen}>
-                        <Text style={styles.textRegister}>REGISTER HERE</Text>
+                    <Text>Bạn chưa có mật khẩu? </Text>
+                    <TouchableOpacity disabled={loading} onPress={onClickRegisterScreen}>
+                        <Text style={styles.textRegister}>Tạo mới tài khoản tại đây</Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.textRegister}>Designed by NDC</Text>

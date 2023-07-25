@@ -45,45 +45,45 @@ const Register = ({ navigation }: any) => {
                 </TouchableOpacity>
             </View>
             <View style={[styles.headerForm, styles.styleView]}>
-                <Text style={[styles.textLogin, styles.colorTextWhite]}>Register</Text>
+                <Text style={[styles.textLogin, styles.colorTextWhite]}>Tạo mới tài khoản</Text>
             </View>
             <View style={[styles.bodyForm]}>
                 <View>
-                    <Text style={[styles.textFormLogin]}>UserName</Text>
+                    <Text style={[styles.textFormLogin]}>Tài khoản</Text>
                 </View>
                 <View style={[styles.viewRowInput]}>
                     <View style={[styles.viewIcon]}>
                         <Icon name="user" />
                     </View>
                     <View>
-                        <TextInput placeholder='This UserName' value={UserName} onChangeText={onChangeUserName} />
+                        <TextInput placeholder='Nhập tài khoản' value={UserName} onChangeText={onChangeUserName} />
                     </View>
                 </View>
                 <View style={{ marginTop: "2%" }}>
-                    <Text style={[styles.textFormLogin]}>PassWord</Text>
+                    <Text style={[styles.textFormLogin]}>Mật khẩu</Text>
                 </View>
                 <View style={[styles.viewRowInput]}>
                     <View style={[styles.viewIcon]}>
                         <Icon name="lock" />
                     </View>
                     <View>
-                        <TextInput secureTextEntry={true} placeholder='This PassWord' value={PassWord} onChangeText={onChangePassWord} />
+                        <TextInput secureTextEntry={true} placeholder='Nhập mật khẩu' value={PassWord} onChangeText={onChangePassWord} />
                     </View>
                 </View>
                 <View style={{ marginTop: "2%" }}>
-                    <Text style={[styles.textFormLogin]}>Email</Text>
+                    <Text style={[styles.textFormLogin]}>Địa chỉ email</Text>
                 </View>
                 <View style={[styles.viewRowInput]}>
                     <View style={[styles.viewIcon]}>
                         <Icon name="envelope" />
                     </View>
                     <View>
-                        <TextInput placeholder='This Email' value={Email} onChangeText={onChangeEmail} />
+                        <TextInput placeholder='Nhập địa chỉ email' value={Email} onChangeText={onChangeEmail} />
                     </View>
                 </View>
                 <Pressable style={styles.buttonLogin}>
                     <TouchableOpacity onPress={onClickRegister}>
-                        <Text style={{ color: "white", fontSize: 20 }}>Save</Text>
+                        <Text style={{ color: "white", fontSize: 20 }}>Lưu</Text>
                     </TouchableOpacity>
                 </Pressable >
             </View>

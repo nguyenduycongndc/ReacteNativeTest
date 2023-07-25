@@ -118,66 +118,66 @@ const SendOTP = ({ navigation }: any) => {
                 </TouchableOpacity>
             </View>
             <View style={[styles.headerForm, styles.styleView]}>
-                <Text style={[styles.textLogin, styles.colorTextWhite]}>Forgot PassWord</Text>
+                <Text style={[styles.textLogin, styles.colorTextWhite]}>Quên mật khẩu</Text>
             </View>
             <View style={[styles.bodyForm]}>
                 <View style={{ marginTop: "2%" }}>
-                    <Text style={[styles.textFormLogin]}>Email</Text>
+                    <Text style={[styles.textFormLogin]}>Địa chỉ email</Text>
                 </View>
                 <View style={[styles.viewRowInput]}>
                     <View style={[styles.viewIcon]}>
                         <Icon name="envelope" />
                     </View>
                     <View>
-                        <TextInput placeholder='This Email' editable={!loading} value={Email} onChangeText={onChangeEmail} />
+                        <TextInput placeholder='Nhập địa chỉ email' editable={!loading} value={Email} onChangeText={onChangeEmail} />
                     </View>
                 </View>
                 {
                     Show ? (
                         <View>
                             <View style={{ marginTop: "2%" }}>
-                                <Text style={[styles.textFormLogin]}>OTP</Text>
+                                <Text style={[styles.textFormLogin]}>Mã OTP</Text>
                             </View>
                             <View style={[styles.viewRowInput]}>
                                 <View style={[styles.viewIcon]}>
                                     <Icon name="hashtag" />
                                 </View>
                                 <View>
-                                    <TextInput placeholder='This OTP' editable={!loading} value={OTP} onChangeText={onChangeOTP} />
+                                    <TextInput placeholder='Nhập mã OTP' editable={!loading} value={OTP} onChangeText={onChangeOTP} />
                                 </View>
                             </View>
                             <View style={{ marginTop: "2%" }}>
-                                <Text style={[styles.textFormLogin]}>PassWord New</Text>
+                                <Text style={[styles.textFormLogin]}>Mật khẩu mới</Text>
                             </View>
                             <View style={[styles.viewRowInput]}>
                                 <View style={[styles.viewIcon]}>
                                     <Icon name="lock" />
                                 </View>
                                 <View>
-                                    <TextInput secureTextEntry={true} editable={!loading} placeholder='This PassWord New' value={PassWordNew} onChangeText={onChangePassWordNew} />
+                                    <TextInput secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
                                 </View>
                             </View>
                             <View style={{ marginTop: "2%" }}>
-                                <Text style={[styles.textFormLogin]}>Confirm PassWord</Text>
+                                <Text style={[styles.textFormLogin]}>Nhập lại mật khẩu</Text>
                             </View>
                             <View style={[styles.viewRowInput]}>
                                 <View style={[styles.viewIcon]}>
                                     <Icon name="lock" />
                                 </View>
                                 <View>
-                                    <TextInput secureTextEntry={true} editable={!loading} placeholder='This Confirm PassWord' value={ConfirmPassWord} onChangeText={onChangeConfirmPassWord} />
+                                    <TextInput secureTextEntry={true} editable={!loading} placeholder='Nhập lại mật khẩu' value={ConfirmPassWord} onChangeText={onChangeConfirmPassWord} />
                                 </View>
                             </View>
                             <Pressable style={styles.buttonLogin}>
                                 <TouchableOpacity onPress={onClickChangePassWord} activeOpacity={0.1} disabled={loading}>
-                                    <Text style={{ color: "white", fontSize: 20 }}>Send</Text>
+                                    <Text style={{ color: "white", fontSize: 20 }}>Gửi</Text>
                                 </TouchableOpacity>
                             </Pressable >
                         </View>
                     ) : (
                         <Pressable style={styles.buttonLogin}>
                             <TouchableOpacity onPress={onClickSendOTP} activeOpacity={0.1} disabled={loading}>
-                                <Text style={{ color: "white", fontSize: 20 }}>SendOTP</Text>
+                                <Text style={{ color: "white", fontSize: 20 }}>Gửi mã OTP</Text>
                             </TouchableOpacity>
                         </Pressable >
                     )

@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderBottomColor: "grey",
         borderBottomWidth: 1,
+        alignItems: 'center'
     },
     viewIcon: {
         justifyContent: "center",
@@ -81,14 +82,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 12,
     },
-    textStyle:{
-        fontSize: 20,
-        color:"#BFE591",
-    },
-    textStyleHeader:{
-        fontSize: 30,
-        color:"#BFE591",
-    },
+    // textStyle:{
+    //     fontSize: 20,
+    //     color:"#BFE591",
+    // },
+    // textStyleHeader:{
+    //     fontSize: 30,
+    //     color:"#BFE591",
+    // },
     buttonLogout: {
         marginTop: "8%",
         backgroundColor: "#BDB6B6",

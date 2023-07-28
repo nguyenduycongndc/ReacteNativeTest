@@ -28,29 +28,31 @@ const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 
-function Root() {
-  return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={TabRouter} options={{ headerShown: false }}/>
-      {/* <Drawer.Screen name="Register" component={Register} options={{ headerShown: false }} />
-      <Drawer.Screen name="SendOTP" component={SendOTP} options={{ headerShown: false }} /> */}
-    </Drawer.Navigator>
-  );
-}
+// function Root() {
+//   return (
+//     <Drawer.Navigator>
+//       <Drawer.Screen name="Home" component={TabRouter} options={{ headerShown: false }} />
+//       {/* <Drawer.Screen name="Register" component={Register} options={{ headerShown: false }} />
+//       <Drawer.Screen name="SendOTP" component={SendOTP} options={{ headerShown: false }} /> */}
+//     </Drawer.Navigator>
+//   );
+// }
 
 function TabRouter() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Chính" component={Home} options={{
+      <Tab.Screen name="Home" component={Home} options={{
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />
         ),
       }} />
-      <Tab.Screen name="Cá nhân" component={Individual} options={{ headerShown: false,
+      <Tab.Screen name="Individual" component={Individual} options={{
+        headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="account" color={color} size={size} />
-        ), }} />
+        ),
+      }} />
     </Tab.Navigator>
   );
 }
@@ -61,7 +63,8 @@ function App(): JSX.Element {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="Root" component={Root} options={{ headerShown: false }} />
+        <Stack.Screen name="TabRouter" component={TabRouter} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="Root" component={Root} options={{ headerShown: false }} /> */}
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
         <Stack.Screen name="SendOTP" component={SendOTP} options={{ headerShown: false }} />
         <Stack.Screen name="ChangePassWord" component={ChangePassWord} options={{ headerShown: false }} />

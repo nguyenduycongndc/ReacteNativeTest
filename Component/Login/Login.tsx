@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Pressable, ImageBackground, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import styles from '../Style/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { environment } from '../../environments/environments';
@@ -25,8 +25,12 @@ const Login = ({ navigation }: any) => {
     const [Token, setToken] = useState("");
     const [RequireUserName, setRequireUserName] = useState(false);
     const [RequirePassWord, setRequirePassWord] = useState(false);
+    const [ShowAndHide, setShowAndHide] = useState(false);
 
-    
+
+    const onClickShowAndHide = () =>{
+        setShowAndHide((ShowAndHide) => !ShowAndHide);
+    }
     const showLoading = () => {
         setLoading(true);
     }
@@ -64,40 +68,46 @@ const Login = ({ navigation }: any) => {
     //     })
     //     console.log({ response });
     // }
-
+    const checkValidator = () => {
+        let isValid = true;
+        if (UserName == "") {
+            isValid = false;
+            setRequireUserName(true)
+        };
+        if (PassWord == "") {
+            setRequirePassWord(true)
+            isValid = false;
+        };
+        return isValid;
+    }
     const onClickLogin = async () => {
         // await axios.post(`${environment.apiUrl}Login/LoginUser`, {
         //     userName: UserName,
         //     passWord: PassWord,
         // })
-        if (UserName == "") {
-            setRequireUserName(true)
-        }
-        if (PassWord == "") {
-            setRequirePassWord(true)
-        }
-        console.log(RequireUserName);
-        console.log(RequirePassWord);
-        showLoading();
-        await axios(configurationObject)
-            .then(response => {
-                console.log(response.data);
-                if (response.data.token != null) {
-                    setToken(response.data.token);
-                    showToast();
+        const isValid = checkValidator();
+        if (isValid) {
+            showLoading();
+            await axios(configurationObject)
+                .then(response => {
+                    console.log(response.data);
+                    if (response.data.token != null) {
+                        setToken(response.data.token);
+                        showToast();
+                        hideLoading();
+                        // navigation.navigate('Root');
+                        navigation.navigate('TabRouter');
+                    } else {
+                        showToastError();
+                        hideLoading();
+                        console.error("Error");
+                    }
+                })
+                .catch(error => {
+                    console.error({ error });
                     hideLoading();
-                    navigation.navigate('Root');
-                    console.log(Token)
-                } else {
-                    showToastError();
-                    hideLoading();
-                    console.error("Error");
-                }
-            })
-            .catch(error => {
-                console.error({ error });
-                hideLoading();
-            });
+                });
+        }
         console.log({ UserName, PassWord })
     };
 
@@ -158,12 +168,15 @@ const Login = ({ navigation }: any) => {
                     <Text style={[styles.textFormLogin]}>Mật khẩu</Text>
                 </View>
                 <View style={[styles.viewRowInput]}>
-                    <View style={[styles.viewIcon]}>
-                        <Icon name="lock" />
+                    <View style={{flexDirection: 'row'}}>
+                        <View style={[styles.viewIcon]}>
+                            <Icon name="lock" />
+                        </View>
+                        <TextInput style={{flex: 1}} autoCorrect={false} secureTextEntry={!ShowAndHide} editable={!loading} placeholder='Nhập mật khẩu' value={PassWord} onChangeText={onChangePassWord} />
                     </View>
-                    <View>
-                        <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu' value={PassWord} onChangeText={onChangePassWord} />
-                    </View>
+                    <TouchableOpacity onPress={onClickShowAndHide}>
+                        <Icon name="eye" />
+                    </TouchableOpacity>
                 </View>
                 {(RequirePassWord && PassWord.length < 1) ? (
                     <View>
@@ -175,11 +188,9 @@ const Login = ({ navigation }: any) => {
                 <TouchableOpacity onPress={onClickForgotPassWord}>
                     <Text style={styles.forgotPassWord}>Quên mật khẩu?</Text>
                 </TouchableOpacity>
-                <Pressable style={styles.buttonLogin}>
-                    <TouchableOpacity onPress={onClickLogin}>
-                        <Text style={{ color: "white", fontSize: 20 }}>Đăng nhập</Text>
-                    </TouchableOpacity>
-                </Pressable >
+                <TouchableOpacity style={styles.buttonLogin} onPress={onClickLogin}>
+                    <Text style={{ color: "white", fontSize: 20 }}>Đăng nhập</Text>
+                </TouchableOpacity>
             </View>
             <View style={[styles.footerForm, styles.styleView]}>
                 <View style={styles.viewRow}>

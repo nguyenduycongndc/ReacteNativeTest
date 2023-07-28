@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ImageBackground, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
 import styles from '../Style/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { environment } from '../../environments/environments';
@@ -183,109 +183,113 @@ const SendOTP = ({ navigation }: any) => {
     };
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
-            {loading && <LoadingAnimation />}
-            <View>
-                <TouchableOpacity onPress={onClickBack}>
-                    <Icon name="arrow-left" size={30} />
-                </TouchableOpacity>
-            </View>
-            <View style={[styles.headerForm, styles.styleView]}>
-                <Text style={[styles.textLogin, styles.colorTextWhite]}>Quên mật khẩu</Text>
-            </View>
-            <View style={[styles.bodyForm]}>
-                <View style={{ marginTop: "2%" }}>
-                    <Text style={[styles.textFormLogin]}>Địa chỉ email</Text>
+            <SafeAreaView style={{ height: '100%' }}>
+                {loading && <LoadingAnimation />}
+                <View>
+                    <TouchableOpacity onPress={onClickBack}>
+                        <Icon name="arrow-left" size={30} />
+                    </TouchableOpacity>
                 </View>
-                <View style={[styles.viewRowInput]}>
-                    <View style={[styles.viewIcon]}>
-                        <Icon name="envelope" />
-                    </View>
-                    <View>
-                        <TextInput placeholder='Nhập địa chỉ email' keyboardType="email-address" editable={!loading} value={Email} onChangeText={onChangeEmail} />
-                    </View>
+                <View style={[styles.headerForm, styles.styleView]}>
+                    <Text style={[styles.textLogin, styles.colorTextWhite]}>Quên mật khẩu</Text>
                 </View>
-                {(RequireEmail && Email.length < 1) ? (
-                    <View>
-                        <Text style={{ color: 'red' }}>Địa chỉ email không được để trống!</Text>
-                    </View>
-                ) : (
-                    null
-                )}
-                {
-                    Show ? (
-                        <View>
-                            <View style={{ marginTop: "2%" }}>
-                                <Text style={[styles.textFormLogin]}>Mã OTP</Text>
-                            </View>
-                            <View style={[styles.viewRowInput]}>
-                                <View style={[styles.viewIcon]}>
-                                    <Icon name="hashtag" />
-                                </View>
-                                <View>
-                                    <TextInput placeholder='Nhập mã OTP' keyboardType="numeric" editable={!loading} value={OTP} onChangeText={onChangeOTP} />
-                                </View>
-                            </View>
-                            {(RequireOTP && OTP.length < 1) ? (
-                                <View>
-                                    <Text style={{ color: 'red' }}>Mã OTP không được để trống!</Text>
-                                </View>
-                            ) : (
-                                null
-                            )}
-                            <View style={{ marginTop: "2%" }}>
-                                <Text style={[styles.textFormLogin]}>Mật khẩu mới</Text>
-                            </View>
-                            <View style={[styles.viewRowInput]}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <View style={[styles.viewIcon]}>
-                                        <Icon name="lock" />
-                                    </View>
-                                    <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHide} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
-                                </View>
-                                <TouchableOpacity onPress={onClickShowAndHide}>
-                                    <Icon name="eye" />
-                                </TouchableOpacity>
-                            </View>
-                            {(RequirePassWordNew && PassWordNew.length < 1) ? (
-                                <View>
-                                    <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
-                                </View>
-                            ) : (
-                                null
-                            )}
-                            <View style={{ marginTop: "2%" }}>
-                                <Text style={[styles.textFormLogin]}>Nhập lại mật khẩu</Text>
-                            </View>
-                            <View style={[styles.viewRowInput]}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <View style={[styles.viewIcon]}>
-                                        <Icon name="lock" />
-                                    </View>
-                                    <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHideConfirm}  editable={!loading} placeholder='Nhập lại mật khẩu' value={ConfirmPassWord} onChangeText={onChangeConfirmPassWord} />
-                                </View>
-                                <TouchableOpacity onPress={onClickShowAndHideConfirm}>
-                                    <Icon name="eye" />
-                                </TouchableOpacity>
-                            </View>
-                            {(RequireConfirmPassWord && ConfirmPassWord.length < 1) ? (
-                                <View>
-                                    <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
-                                </View>
-                            ) : (
-                                null
-                            )}
-                            <TouchableOpacity style={styles.buttonLogin} onPress={onClickChangePassWord} activeOpacity={0.1} disabled={loading}>
-                                <Text style={{ color: "white", fontSize: 20 }}>Gửi</Text>
-                            </TouchableOpacity>
+                <ScrollView>
+                    <View style={[styles.bodyForm]}>
+                        <View style={{ marginTop: "2%" }}>
+                            <Text style={[styles.textFormLogin]}>Địa chỉ email</Text>
                         </View>
-                    ) : (
-                        <TouchableOpacity style={styles.buttonLogin} onPress={onClickSendOTP} activeOpacity={0.1} disabled={loading}>
-                            <Text style={{ color: "white", fontSize: 20 }}>Gửi mã OTP</Text>
-                        </TouchableOpacity>
-                    )
-                }
+                        <View style={[styles.viewRowInput]}>
+                            <View style={[styles.viewIcon]}>
+                                <Icon name="envelope" />
+                            </View>
+                            <View>
+                                <TextInput placeholder='Nhập địa chỉ email' keyboardType="email-address" editable={!loading} value={Email} onChangeText={onChangeEmail} />
+                            </View>
+                        </View>
+                        {(RequireEmail && Email.length < 1) ? (
+                            <View>
+                                <Text style={{ color: 'red' }}>Địa chỉ email không được để trống!</Text>
+                            </View>
+                        ) : (
+                            null
+                        )}
+                        {
+                            Show ? (
+                                <View>
+                                    <View style={{ marginTop: "2%" }}>
+                                        <Text style={[styles.textFormLogin]}>Mã OTP</Text>
+                                    </View>
+                                    <View style={[styles.viewRowInput]}>
+                                        <View style={[styles.viewIcon]}>
+                                            <Icon name="hashtag" />
+                                        </View>
+                                        <View>
+                                            <TextInput placeholder='Nhập mã OTP' keyboardType="numeric" editable={!loading} value={OTP} onChangeText={onChangeOTP} />
+                                        </View>
+                                    </View>
+                                    {(RequireOTP && OTP.length < 1) ? (
+                                        <View>
+                                            <Text style={{ color: 'red' }}>Mã OTP không được để trống!</Text>
+                                        </View>
+                                    ) : (
+                                        null
+                                    )}
+                                    <View style={{ marginTop: "2%" }}>
+                                        <Text style={[styles.textFormLogin]}>Mật khẩu mới</Text>
+                                    </View>
+                                    <View style={[styles.viewRowInput]}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <View style={[styles.viewIcon]}>
+                                                <Icon name="lock" />
+                                            </View>
+                                            <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHide} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
+                                        </View>
+                                        <TouchableOpacity onPress={onClickShowAndHide}>
+                                            <Icon name="eye" />
+                                        </TouchableOpacity>
+                                    </View>
+                                    {(RequirePassWordNew && PassWordNew.length < 1) ? (
+                                        <View>
+                                            <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
+                                        </View>
+                                    ) : (
+                                        null
+                                    )}
+                                    <View style={{ marginTop: "2%" }}>
+                                        <Text style={[styles.textFormLogin]}>Nhập lại mật khẩu</Text>
+                                    </View>
+                                    <View style={[styles.viewRowInput]}>
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <View style={[styles.viewIcon]}>
+                                                <Icon name="lock" />
+                                            </View>
+                                            <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHideConfirm} editable={!loading} placeholder='Nhập lại mật khẩu' value={ConfirmPassWord} onChangeText={onChangeConfirmPassWord} />
+                                        </View>
+                                        <TouchableOpacity onPress={onClickShowAndHideConfirm}>
+                                            <Icon name="eye" />
+                                        </TouchableOpacity>
+                                    </View>
+                                    {(RequireConfirmPassWord && ConfirmPassWord.length < 1) ? (
+                                        <View>
+                                            <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
+                                        </View>
+                                    ) : (
+                                        null
+                                    )}
+                                    <TouchableOpacity style={styles.buttonLogin} onPress={onClickChangePassWord} activeOpacity={0.1} disabled={loading}>
+                                        <Text style={{ color: "white", fontSize: 20 }}>Gửi</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                <TouchableOpacity style={styles.buttonLogin} onPress={onClickSendOTP} activeOpacity={0.1} disabled={loading}>
+                                    <Text style={{ color: "white", fontSize: 20 }}>Gửi mã OTP</Text>
+                                </TouchableOpacity>
+                            )
+                        }
 
-            </View>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
         </ImageBackground>
     )
 }

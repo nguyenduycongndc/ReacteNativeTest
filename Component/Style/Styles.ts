@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         height: "75%",
         marginLeft: "8%",
         marginRight: "8%",
-        marginTop: "2%"
+        marginTop: "2%",
     },
     footerForm: {
         height: "15%",
@@ -82,14 +82,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 12,
     },
-    // textStyle:{
-    //     fontSize: 20,
-    //     color:"#BFE591",
-    // },
-    // textStyleHeader:{
-    //     fontSize: 30,
-    //     color:"#BFE591",
-    // },
     buttonLogout: {
         marginTop: "8%",
         backgroundColor: "#BDB6B6",
@@ -99,9 +91,39 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 50,
     },
-    StyleFooterIndividual:{
-        paddingHorizontal:50,
+    StyleFooterIndividual: {
+        paddingHorizontal: 50,
         marginHorizontal: 80,
     },
+    //Animation
+    scrollContainer: {
+        width: '100%',
+        height: '40%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    card: {
+        flex: 1,
+        marginVertical: 4,
+        marginHorizontal: 16,
+        borderRadius: 5,
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    normalDot: {
+        height: 8,
+        width: 8,
+        borderRadius: 4,
+        backgroundColor: '#bcbcbc',
+        marginHorizontal: 3,
+    },
+    iconScroll: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop:'5%'
+    },
+    //Animation
 });
 export default styles;

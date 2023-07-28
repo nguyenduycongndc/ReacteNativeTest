@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, ImageBackground, Text, TextInput, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, ImageBackground, Text, TextInput, ActivityIndicator, SafeAreaView, ScrollView } from 'react-native';
 import styles from '../Style/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios, { AxiosRequestConfig } from 'axios';
 import { environment } from '../../environments/environments';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'react-native-gesture-handler';
 
 function LoadingAnimation() {
     return (
@@ -37,7 +36,7 @@ const ChangePassWord = ({ navigation }: any) => {
         try {
             const token = await AsyncStorage.getItem('Token') || '';
             setToken(JSON.parse(token as string));
-            console.log({Token: Token})
+            console.log({ Token: Token })
         } catch (error) {
             console.log({ error });
         }
@@ -73,7 +72,7 @@ const ChangePassWord = ({ navigation }: any) => {
             text1: 'Thay đổi mật khẩu thất bại!',
         });
     };
-    const checkValidator = () =>{
+    const checkValidator = () => {
         let isValid = true;
         if (PassWordOld == "") {
             isValid = false;
@@ -100,7 +99,7 @@ const ChangePassWord = ({ navigation }: any) => {
         data: { PassWordOld: PassWordOld, PassWordNew: PassWordNew, ConfirmPassWordNew: ConfirmPassWordNew },
     };
     const onClickChangePassWord = async () => {
-        console.log({Token: Token})
+        console.log({ Token: Token })
         const isValid = checkValidator();
         if (isValid) {
             showLoading();
@@ -126,74 +125,78 @@ const ChangePassWord = ({ navigation }: any) => {
     }
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
-            {loading && <LoadingAnimation />}
-            <View>
-                <TouchableOpacity onPress={onClickBack}>
-                    <Icon name="arrow-left" size={30} />
-                </TouchableOpacity>
-            </View>
-            <View style={[styles.headerForm, styles.styleView]}>
-                <Text style={styles.textLogin}>Thay đổi mật khẩu</Text>
-            </View>
-            <View style={[styles.bodyForm]}>
+            <SafeAreaView style={{height:'100%'}}>
+                {loading && <LoadingAnimation />}
                 <View>
-                    <Text style={styles.textFormLogin}>Mật khẩu cũ</Text>
+                    <TouchableOpacity onPress={onClickBack}>
+                        <Icon name="arrow-left" size={30} />
+                    </TouchableOpacity>
                 </View>
-                <View style={[styles.viewRowInput]}>
-                    <View style={[styles.viewIcon]}>
-                        <Icon name="lock" />
-                    </View>
-                    <View>
-                        <TextInput secureTextEntry={true} placeholder='Nhập mật khẩu cũ' editable={!loading} value={PassWordOld} onChangeText={onChangePassWordOld} />
-                    </View>
+                <View style={[styles.headerForm, styles.styleView]}>
+                    <Text style={styles.textLogin}>Thay đổi mật khẩu</Text>
                 </View>
-                {(RequirePassWordOld && PassWordOld.length < 1) ? (
-                    <View>
-                        <Text style={{ color: 'red' }}>Mật khẩu cũ không được để trống!</Text>
-                    </View>
-                ) : (
-                    null
-                )}
-                <View style={{ marginTop: "2%" }}>
-                    <Text style={[styles.textFormLogin]}>Mật khẩu mới</Text>
+                <View style={[styles.bodyForm]}>
+                    <ScrollView >
+                        <View>
+                            <Text style={styles.textFormLogin}>Mật khẩu cũ</Text>
+                        </View>
+                        <View style={[styles.viewRowInput]}>
+                            <View style={[styles.viewIcon]}>
+                                <Icon name="lock" />
+                            </View>
+                            <View>
+                                <TextInput secureTextEntry={true} placeholder='Nhập mật khẩu cũ' editable={!loading} value={PassWordOld} onChangeText={onChangePassWordOld} />
+                            </View>
+                        </View>
+                        {(RequirePassWordOld && PassWordOld.length < 1) ? (
+                            <View>
+                                <Text style={{ color: 'red' }}>Mật khẩu cũ không được để trống!</Text>
+                            </View>
+                        ) : (
+                            null
+                        )}
+                        <View style={{ marginTop: "2%" }}>
+                            <Text style={[styles.textFormLogin]}>Mật khẩu mới</Text>
+                        </View>
+                        <View style={[styles.viewRowInput]}>
+                            <View style={[styles.viewIcon]}>
+                                <Icon name="lock" />
+                            </View>
+                            <View>
+                                <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
+                            </View>
+                        </View>
+                        {(RequirePassWordNew && PassWordNew.length < 1) ? (
+                            <View>
+                                <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
+                            </View>
+                        ) : (
+                            null
+                        )}
+                        <View style={{ marginTop: "2%" }}>
+                            <Text style={[styles.textFormLogin]}>Nhập lại mật khẩu</Text>
+                        </View>
+                        <View style={[styles.viewRowInput]}>
+                            <View style={[styles.viewIcon]}>
+                                <Icon name="lock" />
+                            </View>
+                            <View>
+                                <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu mới' value={ConfirmPassWordNew} onChangeText={onChangeConfirmPassWord} />
+                            </View>
+                        </View>
+                        {(RequireConfirmPassWord && ConfirmPassWordNew.length < 1) ? (
+                            <View>
+                                <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
+                            </View>
+                        ) : (
+                            null
+                        )}
+                        <TouchableOpacity style={styles.buttonLogin} onPress={onClickChangePassWord}>
+                            <Text style={{ color: "white", fontSize: 20 }}>Lưu</Text>
+                        </TouchableOpacity>
+                    </ScrollView >
                 </View>
-                <View style={[styles.viewRowInput]}>
-                    <View style={[styles.viewIcon]}>
-                        <Icon name="lock" />
-                    </View>
-                    <View>
-                        <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
-                    </View>
-                </View>
-                {(RequirePassWordNew && PassWordNew.length < 1) ? (
-                    <View>
-                        <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
-                    </View>
-                ) : (
-                    null
-                )}
-                <View style={{ marginTop: "2%" }}>
-                    <Text style={[styles.textFormLogin]}>Nhập lại mật khẩu</Text>
-                </View>
-                <View style={[styles.viewRowInput]}>
-                    <View style={[styles.viewIcon]}>
-                        <Icon name="lock" />
-                    </View>
-                    <View>
-                        <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu mới' value={ConfirmPassWordNew} onChangeText={onChangeConfirmPassWord} />
-                    </View>
-                </View>
-                {(RequireConfirmPassWord && ConfirmPassWordNew.length < 1) ? (
-                    <View>
-                        <Text style={{ color: 'red' }}>Mật khẩu không được để trống!</Text>
-                    </View>
-                ) : (
-                    null
-                )}
-                <TouchableOpacity style={styles.buttonLogin} onPress={onClickChangePassWord}>
-                    <Text style={{ color: "white", fontSize: 20 }}>Lưu</Text>
-                </TouchableOpacity>
-            </View>
+            </SafeAreaView>
         </ImageBackground>
     )
 }

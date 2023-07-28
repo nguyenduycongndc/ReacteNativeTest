@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, ImageBackground, Text, TextInput, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, ImageBackground, Text, TextInput, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../Style/Styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -70,30 +70,34 @@ const Individual = ({ navigation }: any) => {
     };
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
-            {loading && <LoadingAnimation />}
-            <View style={[styles.headerForm, styles.styleView]}>
-                <Text style={[styles.textLogin]}>Cá nhân</Text>
-            </View>
-            <View style={[styles.bodyForm]}>
-                <View style={{ flexDirection: "row", borderBottomWidth: 1, justifyContent: 'space-between', marginBottom: 20, borderBottomColor: "grey", }}>
-                    <Text>Chi tiết người dùng</Text>
-                    <TouchableOpacity disabled={loading} onPress={onClickDetailUser}>
-                        <Text>|***</Text>
+            <SafeAreaView style={{height:'100%'}}>
+                {loading && <LoadingAnimation />}
+                <View style={[styles.headerForm, styles.styleView]}>
+                    <Text style={[styles.textLogin]}>Cá nhân</Text>
+                </View>
+                <View style={[styles.bodyForm]}>
+                    <ScrollView>
+                        <View style={{ flexDirection: "row", borderBottomWidth: 1, justifyContent: 'space-between', marginBottom: 20, borderBottomColor: "grey", }}>
+                            <Text>Chi tiết người dùng</Text>
+                            <TouchableOpacity disabled={loading} onPress={onClickDetailUser}>
+                                <Text>|***</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: "row", borderBottomWidth: 1, justifyContent: 'space-between', marginBottom: 20, borderBottomColor: "grey", }}>
+                            <Text>Đổi mật khẩu</Text>
+                            <TouchableOpacity disabled={loading} onPress={onClickChangePassWord}>
+                                <Text>|***</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </View>
+                <View style={[styles.footerForm, styles.styleView, styles.StyleFooterIndividual]}>
+                    <TouchableOpacity style={styles.buttonLogout} onPress={onClickLogout}>
+                        <Text style={{ color: "white", fontSize: 20 }}>Đăng xuất</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ flexDirection: "row", borderBottomWidth: 1, justifyContent: 'space-between', marginBottom: 20, borderBottomColor: "grey", }}>
-                    <Text>Đổi mật khẩu</Text>
-                    <TouchableOpacity disabled={loading} onPress={onClickChangePassWord}>
-                        <Text>|***</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={[styles.footerForm, styles.styleView, styles.StyleFooterIndividual]}>
-                <TouchableOpacity style={styles.buttonLogout} onPress={onClickLogout}>
-                    <Text style={{ color: "white", fontSize: 20 }}>Đăng xuất</Text>
-                </TouchableOpacity>
-            </View>
-        </ImageBackground>
+            </SafeAreaView>
+        </ImageBackground >
     )
 }
 export default Individual;

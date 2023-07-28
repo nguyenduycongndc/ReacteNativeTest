@@ -61,16 +61,16 @@ function TabRouter() {
 function App(): JSX.Element {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="TabRouter" component={TabRouter} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="Root" component={Root} options={{ headerShown: false }} /> */}
-        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-        <Stack.Screen name="SendOTP" component={SendOTP} options={{ headerShown: false }} />
-        <Stack.Screen name="ChangePassWord" component={ChangePassWord} options={{ headerShown: false }} />
-        <Stack.Screen name="DetailUser" component={DetailUser} options={{ headerShown: false }} />
-      </Stack.Navigator>
-      <Toast />
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="TabRouter" component={TabRouter} options={{ headerShown: false }} />
+          {/* <Stack.Screen name="Root" component={Root} options={{ headerShown: false }} /> */}
+          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+          <Stack.Screen name="SendOTP" component={SendOTP} options={{ headerShown: false }} />
+          <Stack.Screen name="ChangePassWord" component={ChangePassWord} options={{ headerShown: false }} />
+          <Stack.Screen name="DetailUser" component={DetailUser} options={{ headerShown: false }} />
+        </Stack.Navigator>
+        <Toast />
     </NavigationContainer>
   );
 }

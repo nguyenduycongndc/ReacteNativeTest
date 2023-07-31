@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     //Animation
     scrollContainer: {
         width: '100%',
-        height: '40%',
+        height: '50%',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         borderRadius: 5,
         overflow: 'hidden',
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'center',
+        // justifyContent: 'center',
     },
     normalDot: {
         height: 8,
@@ -123,6 +123,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop:'5%'
+    },
+    deleteCard: {
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+
+    },
+    viewCard:{
+        flex: 1,
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    cardNull: {
+        flex: 1,
+        overflow: 'hidden',
+        marginVertical: 4,
+        marginHorizontal: 16,
+        borderRadius: 10,
+        backgroundColor: 'rgba(52, 52, 52, 0.5)',
+        justifyContent: 'center',
+        alignItems:"center",
+        width: "100%", 
+        height: "100%",
     },
     //Animation
 });

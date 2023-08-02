@@ -62,7 +62,7 @@ function TabRouter() {
       }} />
     </Tab.Navigator>
   );
-}
+};
 
 
 function App(): JSX.Element {
@@ -80,6 +80,6 @@ function App(): JSX.Element {
       <Toast />
     </NavigationContainer>
   );
-}
+};
 
 export default App;

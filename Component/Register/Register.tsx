@@ -15,7 +15,7 @@ function LoadingAnimation() {
             <Text style={styles.textLoading}>Loading...</Text>
         </View>
     );
-}
+};
 const Register = ({ navigation }: any) => {
     const [UserName, SetUserName] = useState("");
     const [PassWord, SetPassWord] = useState("");
@@ -27,14 +27,14 @@ const Register = ({ navigation }: any) => {
     const [ShowAndHide, setShowAndHide] = useState(false);
     const onClickShowAndHide = () => {
         setShowAndHide((ShowAndHide) => !ShowAndHide);
-    }
+    };
 
     const showLoading = () => {
         setLoading(true);
-    }
+    };
     const hideLoading = () => {
         setLoading(false);
-    }
+    };
 
     const onChangeUserName = (value: string) => {
         SetUserName(value);
@@ -50,13 +50,13 @@ const Register = ({ navigation }: any) => {
             type: 'success',
             text1: 'Thành công!',
         });
-    }
+    };
     const showToastError = () => {
         Toast.show({
             type: 'error',
             text1: 'Thất bại!',
         });
-    }
+    };
     const checkValidator = () => {
         let isValid = true;
         if (UserName == "") {
@@ -72,7 +72,7 @@ const Register = ({ navigation }: any) => {
             setRequireEmail(true)
         };
         return isValid;
-    }
+    };
 
     const onClickRegister = async () => {
         const isValid = checkValidator();
@@ -87,14 +87,12 @@ const Register = ({ navigation }: any) => {
                     hideLoading();
                     showToast();
                     navigation.navigate('Login');
-                    console.log(response.data);
                 })
                 .catch(error => {
                     hideLoading();
                     showToastError();
                     console.error({ error });
                 });
-            console.log({ UserName, PassWord, Email });
         }
     };
     const onClickBack = () => {

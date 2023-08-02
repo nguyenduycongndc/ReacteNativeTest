@@ -36,7 +36,6 @@ const ChangePassWord = ({ navigation }: any) => {
         try {
             const token = await AsyncStorage.getItem('Token') || '';
             setToken(JSON.parse(token as string));
-            console.log({ Token: Token })
         } catch (error) {
             console.log({ error });
         }
@@ -99,7 +98,6 @@ const ChangePassWord = ({ navigation }: any) => {
         data: { PassWordOld: PassWordOld, PassWordNew: PassWordNew, ConfirmPassWordNew: ConfirmPassWordNew },
     };
     const onClickChangePassWord = async () => {
-        console.log({ Token: Token })
         const isValid = checkValidator();
         if (isValid) {
             showLoading();

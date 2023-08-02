@@ -14,7 +14,7 @@ function LoadingAnimation() {
             <Text style={styles.textLoading}>Loading...</Text>
         </View>
     );
-}
+};
 const Login = ({ navigation }: any) => {
     const [UserName, SetUserName] = useState("user1");
     //user1
@@ -30,25 +30,25 @@ const Login = ({ navigation }: any) => {
 
     const onClickShowAndHide = () => {
         setShowAndHide((ShowAndHide) => !ShowAndHide);
-    }
+    };
     const showLoading = () => {
         setLoading(true);
-    }
+    };
     const hideLoading = () => {
         setLoading(false);
-    }
+    };
     const showToast = () => {
         Toast.show({
             type: 'success',
             text1: 'Đăng nhập thành công!',
         });
-    }
+    };
     const showToastError = () => {
         Toast.show({
             type: 'error',
             text1: 'Đăng nhập thất bại!',
         });
-    }
+    };
     const configurationObject = {
         method: 'post',
         url: `${environment.apiUrl}Login/LoginUser`,
@@ -79,7 +79,7 @@ const Login = ({ navigation }: any) => {
             isValid = false;
         };
         return isValid;
-    }
+    };
     const onClickLogin = async () => {
         // await axios.post(`${environment.apiUrl}Login/LoginUser`, {
         //     userName: UserName,
@@ -90,7 +90,6 @@ const Login = ({ navigation }: any) => {
             showLoading();
             await axios(configurationObject)
                 .then(response => {
-                    console.log(response.data);
                     if (response.data.token != null) {
                         setToken(response.data.token);
                         showToast();
@@ -108,7 +107,6 @@ const Login = ({ navigation }: any) => {
                     hideLoading();
                 });
         }
-        console.log({ UserName, PassWord })
     };
 
     const onChangeUserName = (value: string) => {

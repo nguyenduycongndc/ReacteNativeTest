@@ -9,11 +9,11 @@ const Home = ({ navigation }: any) => {
     // };
     const scrollX = useRef(new Animated.Value(0)).current;
     
-    
     const images = imgArr.map((img, index) =>{
         return img
-    })
+    });
     const { width: windowWidth } = useWindowDimensions();
+    const imageWidth = windowWidth - windowWidth * 16 / 100;
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
             <SafeAreaView style={{ height: '100%' }}>
@@ -40,7 +40,7 @@ const Home = ({ navigation }: any) => {
                                             },
                                         },
                                     },
-                                ])}
+                                ], {useNativeDriver: false})}
                                 scrollEventThrottle={1}>
                                 {images.map((image, imageIndex) => {
                                     return (
@@ -56,9 +56,9 @@ const Home = ({ navigation }: any) => {
                                 {images.map((image, imageIndex) => {
                                     const width = scrollX.interpolate({
                                         inputRange: [
-                                            windowWidth * (imageIndex - 1),
-                                            windowWidth * imageIndex,
-                                            windowWidth * (imageIndex + 1),
+                                            imageWidth * (imageIndex - 1),
+                                            imageWidth * imageIndex,
+                                            imageWidth * (imageIndex + 1),
                                         ],
                                         outputRange: [8, 16, 8],
                                         extrapolate: 'clamp',

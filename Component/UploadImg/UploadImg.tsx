@@ -3,10 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, TouchableOpacity, ImageBackground, Text, ScrollView, SafeAreaView, Animated, useWindowDimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../Style/Styles';
-import imgArr from '../../Img';
 import DocumentPicker from 'react-native-document-picker';
-const UploadImg = ({ navigation }: any) => {
-
+import { environment } from '../../environments/environments';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const UploadImg = () => {
     const [images, setImages] = useState([]);
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef<ScrollView>(null);
@@ -16,12 +17,13 @@ const UploadImg = ({ navigation }: any) => {
     const openMultiDocumentPicker = async () => {
         try {
             const results = await DocumentPicker.pick({
-                type: [DocumentPicker.types.images],
+                type: [DocumentPicker.types.allFiles],
                 allowMultiSelection: true,
             });
 
-            const selectedImages = results.map((result) => ({ uri: result.uri, name: result.name, size: result.size, type: result.type }));
-            setImages(selectedImages);
+            const selectedImages = results.map((item) => ({ uri: item.uri, name: item.name, type: item.type }));
+            setImages(results);
+            setFromData(results);
 
         } catch (err) {
             if (DocumentPicker.isCancel(err)) {
@@ -31,11 +33,66 @@ const UploadImg = ({ navigation }: any) => {
             }
         }
     };
-    const openDetailImg = () => {
+    const [Token, setToken] = useState("");
+    const handleSetToken = async () => {
+        try {
+            const token = await AsyncStorage.getItem('Token') || '';
+            setToken(JSON.parse(token as string));
+        } catch (error) {
+            console.log({ error });
+        }
+    };
+    useEffect(() => {
+        handleSetToken();
+    }, []);
 
-    }
+    const formDataRef = useRef(new FormData());
 
-    const imageWidth = windowWidth - windowWidth * 16 / 100
+
+    const setFromData = (results: any) => {
+        // results.forEach((image: any, index: any) => {
+        //     formDataRef.current.append(`Name`, image.name);
+        //     formDataRef.current.append(`Path`, image.uri); // Use the appropriate server path here
+        //     formDataRef.current.append(`File`, image);
+        // });
+        const imageUri = 'https://hpconnect.vn/wp-content/uploads/2020/02/hinh-anh-hoa-hong-dep-3-1-1068x801.jpg';
+        formDataRef.current.append('File', {
+            uri: imageUri,
+            type: 'image/jpeg', // Thay đổi loại ảnh nếu cần
+            name: 'hinh-anh-hoa-hong-dep-3-1-1068x801.jpg', // Thay đổi tên file nếu cần
+        });
+        formDataRef.current.append(`Name`, 'hinh-anh-hoa-hong-dep-3-1-1068x801.jpg');
+        formDataRef.current.append(`Path`, imageUri); // Use the appropriate server path here
+
+    };
+    const configurationObject = {
+        method: 'post',
+        url: `${environment.apiUrl}File/UploadFile`,
+        data: formDataRef.current,
+        headers: { "Content-Type": 'multipart/form-data', 'Authorization': `${Token}` },
+    };
+    const upLoadFileImg = async () => {
+        // await axios(configurationObject)
+        await axios.post(`${environment.apiUrl}File/UploadFile`, formDataRef.current, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `${Token}`,
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                if (response.data.token != null) {
+
+                } else {
+                    console.error("Error");
+                }
+            })
+            .catch(error => {
+                console.error({ error });
+            });
+    };
+
+    const imageWidth = windowWidth - windowWidth * 16 / 100;
 
     const onClickDeleteImg = (indexImg: any) => {
         setImages(
@@ -46,7 +103,7 @@ const UploadImg = ({ navigation }: any) => {
             const x = imageWidth * (indexImg - 1)
             scrollViewRef.current?.scrollTo(x)
         }
-    }
+    };
 
     const imagesTop = images.map((img, index) => {
         return img
@@ -90,7 +147,7 @@ const UploadImg = ({ navigation }: any) => {
                                                 },
                                             },
                                         },
-                                    ])}
+                                    ], { useNativeDriver: false })}
                                     scrollEventThrottle={1}>
                                     {imagesTop.map((image, imageIndex) => {
                                         return (
@@ -113,9 +170,9 @@ const UploadImg = ({ navigation }: any) => {
                                 {imagesTop.map((image, imageIndex) => {
                                     const width = scrollX.interpolate({
                                         inputRange: [
-                                            windowWidth * (imageIndex - 1),
-                                            windowWidth * imageIndex,
-                                            windowWidth * (imageIndex + 1),
+                                            imageWidth * (imageIndex - 1),
+                                            imageWidth * imageIndex,
+                                            imageWidth * (imageIndex + 1),
                                         ],
                                         outputRange: [8, 16, 8],
                                         extrapolate: 'clamp',
@@ -134,10 +191,17 @@ const UploadImg = ({ navigation }: any) => {
                                 <TouchableOpacity onPress={openDetailImg}>
                                     <Image key={index} source={image} style={{ width: 200, height: 200 }} />
                                 </TouchableOpacity>
-                            ))} 
-                            <TouchableOpacity style={styles.buttonLogin} onPress={openMultiDocumentPicker}>
-                                <Text>Select Images</Text>
-                            </TouchableOpacity>*/}
+                            ))}  */}
+                            {
+                                imagesTop.length < 1 ?
+                                    <TouchableOpacity disabled={true} style={styles.buttonLogout} onPress={() => upLoadFileImg()}>
+                                        <Text>Upload Images</Text>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity style={styles.buttonLogin} onPress={upLoadFileImg}>
+                                        <Text>Upload Images</Text>
+                                    </TouchableOpacity>
+                            }
                         </View>
                     </View>
                 </View>

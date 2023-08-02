@@ -36,18 +36,18 @@ const SendOTP = ({ navigation }: any) => {
 
     const onClickShowAndHide = () => {
         setShowAndHide((ShowAndHide) => !ShowAndHide);
-    }
+    };
 
     const onClickShowAndHideConfirm = () => {
         setShowAndHideConfirm((ShowAndHideConfirm) => !ShowAndHideConfirm);
-    }
+    };
     const showToast = () => {
         Toast.show({
             type: 'success',
             text1: 'Vui lòng kiểm tra mã OTP đã gửi đến email!!!',
             //   text2: 'This is some something 👋'
         });
-    }
+    };
 
     const showToastError = () => {
         Toast.show({
@@ -55,7 +55,7 @@ const SendOTP = ({ navigation }: any) => {
             text1: 'Thất bại! Vui lòng kiểm tra lại địa chỉ email? ',
             //   text2: 'This is some something 👋'
         });
-    }
+    };
 
 
     const onChangeEmail = (value: string) => {
@@ -73,10 +73,10 @@ const SendOTP = ({ navigation }: any) => {
 
     const showLoading = () => {
         setLoading(true);
-    }
+    };
     const hideLoading = () => {
         setLoading(false);
-    }
+    };
     const checkValidatorEmail = () => {
         let isValidEmail = true;
         if (Email == "") {
@@ -84,7 +84,7 @@ const SendOTP = ({ navigation }: any) => {
             setRequireEmail(true)
         };
         return isValidEmail;
-    }
+    };
     const checkValidator = () => {
         let isValid = true;
         if (Email == "") {
@@ -104,7 +104,7 @@ const SendOTP = ({ navigation }: any) => {
             isValid = false;
         };
         return isValid;
-    }
+    };
     const onClickSendOTP = async () => {
         const isValidEmail = checkValidatorEmail();
         if (isValidEmail) {
@@ -120,7 +120,6 @@ const SendOTP = ({ navigation }: any) => {
                         SetShow(false);
                         hideLoading();
                     }
-                    console.log(response.data);
                 })
                 .catch(error => {
                     console.error({ error });
@@ -150,7 +149,6 @@ const SendOTP = ({ navigation }: any) => {
                         hideLoading();
                         null;
                     }
-                    console.log(response.data);
                     hideLoading();
                 })
                 .catch(error => {

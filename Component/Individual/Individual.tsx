@@ -23,7 +23,6 @@ const Individual = ({ navigation }: any) => {
         try {
             const token = await AsyncStorage.getItem('Token') || '';
             setToken(JSON.parse(token as string));
-            console.log({ Token: Token })
         } catch (error) {
             console.log({ error });
         }

@@ -139,7 +139,7 @@ const Login = ({ navigation }: any) => {
     }, [Token])
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
-            <SafeAreaView style={{height:'100%'}}>
+            <SafeAreaView style={{ height: '100%' }}>
                 {loading && <LoadingAnimation />}
                 <View style={[styles.headerForm, styles.styleView]}>
                     <Text style={styles.textLogin}>Đăng Nhập</Text>
@@ -174,9 +174,14 @@ const Login = ({ navigation }: any) => {
                                 </View>
                                 <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHide} editable={!loading} placeholder='Nhập mật khẩu' value={PassWord} onChangeText={onChangePassWord} />
                             </View>
-                            <TouchableOpacity onPress={onClickShowAndHide}>
-                                <Icon name="eye" />
-                            </TouchableOpacity>
+                            {(ShowAndHide) ?
+                                (<TouchableOpacity onPress={onClickShowAndHide}>
+                                    <Icon name="eye-slash" />
+                                </TouchableOpacity>)
+                                :(<TouchableOpacity onPress={onClickShowAndHide}>
+                                    <Icon name="eye" />
+                                </TouchableOpacity>)
+                            }
                         </View>
                         {(RequirePassWord && PassWord.length < 1) ? (
                             <View>

@@ -1,12 +1,12 @@
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity, ImageBackground, Text, ScrollView, SafeAreaView, Animated, useWindowDimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../Style/Styles';
 import DocumentPicker from 'react-native-document-picker';
 import { environment } from '../../environments/environments';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useGetToken } from '../../CustomHook/useGetToken';
 const UploadImg = () => {
     const [images, setImages] = useState([]);
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -33,37 +33,29 @@ const UploadImg = () => {
             }
         }
     };
-    const [Token, setToken] = useState("");
-    const handleSetToken = async () => {
-        try {
-            const token = await AsyncStorage.getItem('Token') || '';
-            setToken(JSON.parse(token as string));
-        } catch (error) {
-            console.log({ error });
-        }
-    };
-    useEffect(() => {
-        handleSetToken();
-    }, []);
+    // const [Token, setToken] = useState("");
+    // const handleSetToken = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('Token') || '';
+    //         setToken(JSON.parse(token as string));
+    //     } catch (error) {
+    //         console.log({ error });
+    //     }
+    // };
+    // useEffect(() => {
+    //     handleSetToken();
+    // }, []);
+    const Token = useGetToken();
 
     const formDataRef = useRef(new FormData());
 
 
     const setFromData = (results: any) => {
-        // results.forEach((image: any, index: any) => {
-        //     formDataRef.current.append(`Name`, image.name);
-        //     formDataRef.current.append(`Path`, image.uri); // Use the appropriate server path here
-        //     formDataRef.current.append(`File`, image);
-        // });
-        const imageUri = 'https://hpconnect.vn/wp-content/uploads/2020/02/hinh-anh-hoa-hong-dep-3-1-1068x801.jpg';
-        formDataRef.current.append('File', {
-            uri: imageUri,
-            type: 'image/jpeg', // Thay đổi loại ảnh nếu cần
-            name: 'hinh-anh-hoa-hong-dep-3-1-1068x801.jpg', // Thay đổi tên file nếu cần
+        results.forEach((image: any, index: any) => {
+            formDataRef.current.append(`Name`, image.name);
+            formDataRef.current.append(`Path`, image.uri); // Use the appropriate server path here
+            formDataRef.current.append(`File`, image);
         });
-        formDataRef.current.append(`Name`, 'hinh-anh-hoa-hong-dep-3-1-1068x801.jpg');
-        formDataRef.current.append(`Path`, imageUri); // Use the appropriate server path here
-
     };
     const configurationObject = {
         method: 'post',

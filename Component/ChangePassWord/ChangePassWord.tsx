@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import axios, { AxiosRequestConfig } from 'axios';
 import { environment } from '../../environments/environments';
 import Toast from 'react-native-toast-message';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useGetToken } from '../../CustomHook/useGetToken';
 
 function LoadingAnimation() {
     return (
@@ -30,20 +30,37 @@ const ChangePassWord = ({ navigation }: any) => {
     const [RequirePassWordNew, setRequirePassWordNew] = useState(false);
     const [RequireConfirmPassWord, setConfirmPassWord] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [Token, setToken] = useState("");
 
-    const handleSetToken = async () => {
-        try {
-            const token = await AsyncStorage.getItem('Token') || '';
-            setToken(JSON.parse(token as string));
-        } catch (error) {
-            console.log({ error });
-        }
-    }
-    useEffect(() => {
-        handleSetToken();
-    }, [])
+    const [ShowAndHideOld, setShowAndHideOld] = useState(false);
+    const [ShowAndHideNew, setShowAndHideNew] = useState(false);
+    const [ShowAndHideConfirm, setShowAndHideConfirm] = useState(false);
 
+
+    const onClickShowAndHideOld = () => {
+        setShowAndHideOld((ShowAndHideOld) => !ShowAndHideOld);
+    };
+
+    const onClickShowAndHideNew = () => {
+        setShowAndHideNew((ShowAndHideNew) => !ShowAndHideNew);
+    };
+
+    const onClickShowAndHideConfirm = () => {
+        setShowAndHideConfirm((ShowAndHideConfirm) => !ShowAndHideConfirm);
+    };
+    // const [Token, setToken] = useState("");
+
+    // const handleSetToken = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('Token') || '';
+    //         setToken(JSON.parse(token as string));
+    //     } catch (error) {
+    //         console.log({ error });
+    //     }
+    // }
+    // useEffect(() => {
+    //     handleSetToken();
+    // }, [])
+    const Token = useGetToken();
     const showLoading = () => {
         setLoading(true);
     }
@@ -123,7 +140,7 @@ const ChangePassWord = ({ navigation }: any) => {
     }
     return (
         <ImageBackground source={require('../../Img/New3.jpg')} style={{ flex: 1 }}>
-            <SafeAreaView style={{height:'100%'}}>
+            <SafeAreaView style={{ height: '100%' }}>
                 {loading && <LoadingAnimation />}
                 <View>
                     <TouchableOpacity onPress={onClickBack}>
@@ -133,18 +150,26 @@ const ChangePassWord = ({ navigation }: any) => {
                 <View style={[styles.headerForm, styles.styleView]}>
                     <Text style={styles.textLogin}>Thay đổi mật khẩu</Text>
                 </View>
-                <View style={[styles.bodyForm]}>
-                    <ScrollView >
+                <ScrollView >
+                    <View style={[styles.bodyForm]}>
                         <View>
                             <Text style={styles.textFormLogin}>Mật khẩu cũ</Text>
                         </View>
                         <View style={[styles.viewRowInput]}>
-                            <View style={[styles.viewIcon]}>
-                                <Icon name="lock" />
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.viewIcon]}>
+                                    <Icon name="lock" />
+                                </View>
+                                <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHideOld} placeholder='Nhập mật khẩu cũ' editable={!loading} value={PassWordOld} onChangeText={onChangePassWordOld} />
                             </View>
-                            <View>
-                                <TextInput secureTextEntry={true} placeholder='Nhập mật khẩu cũ' editable={!loading} value={PassWordOld} onChangeText={onChangePassWordOld} />
-                            </View>
+                            {(ShowAndHideOld) ?
+                                (<TouchableOpacity onPress={onClickShowAndHideOld}>
+                                    <Icon name="eye-slash" />
+                                </TouchableOpacity>)
+                                : (<TouchableOpacity onPress={onClickShowAndHideOld}>
+                                    <Icon name="eye" />
+                                </TouchableOpacity>)
+                            }
                         </View>
                         {(RequirePassWordOld && PassWordOld.length < 1) ? (
                             <View>
@@ -157,12 +182,20 @@ const ChangePassWord = ({ navigation }: any) => {
                             <Text style={[styles.textFormLogin]}>Mật khẩu mới</Text>
                         </View>
                         <View style={[styles.viewRowInput]}>
-                            <View style={[styles.viewIcon]}>
-                                <Icon name="lock" />
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.viewIcon]}>
+                                    <Icon name="lock" />
+                                </View>
+                                <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHideNew} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
                             </View>
-                            <View>
-                                <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
-                            </View>
+                            {(ShowAndHideNew) ?
+                                (<TouchableOpacity onPress={onClickShowAndHideNew}>
+                                    <Icon name="eye-slash" />
+                                </TouchableOpacity>)
+                                : (<TouchableOpacity onPress={onClickShowAndHideNew}>
+                                    <Icon name="eye" />
+                                </TouchableOpacity>)
+                            }
                         </View>
                         {(RequirePassWordNew && PassWordNew.length < 1) ? (
                             <View>
@@ -175,12 +208,20 @@ const ChangePassWord = ({ navigation }: any) => {
                             <Text style={[styles.textFormLogin]}>Nhập lại mật khẩu</Text>
                         </View>
                         <View style={[styles.viewRowInput]}>
-                            <View style={[styles.viewIcon]}>
-                                <Icon name="lock" />
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.viewIcon]}>
+                                    <Icon name="lock" />
+                                </View>
+                                <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHideConfirm} editable={!loading} placeholder='Nhập mật khẩu mới' value={ConfirmPassWordNew} onChangeText={onChangeConfirmPassWord} />
                             </View>
-                            <View>
-                                <TextInput autoCorrect={false} secureTextEntry={true} editable={!loading} placeholder='Nhập mật khẩu mới' value={ConfirmPassWordNew} onChangeText={onChangeConfirmPassWord} />
-                            </View>
+                            {(ShowAndHideConfirm) ?
+                                (<TouchableOpacity onPress={onClickShowAndHideConfirm}>
+                                    <Icon name="eye-slash" />
+                                </TouchableOpacity>)
+                                : (<TouchableOpacity onPress={onClickShowAndHideConfirm}>
+                                    <Icon name="eye" />
+                                </TouchableOpacity>)
+                            }
                         </View>
                         {(RequireConfirmPassWord && ConfirmPassWordNew.length < 1) ? (
                             <View>
@@ -192,8 +233,8 @@ const ChangePassWord = ({ navigation }: any) => {
                         <TouchableOpacity style={styles.buttonLogin} onPress={onClickChangePassWord}>
                             <Text style={{ color: "white", fontSize: 20 }}>Lưu</Text>
                         </TouchableOpacity>
-                    </ScrollView >
-                </View>
+                    </View>
+                </ScrollView >
             </SafeAreaView>
         </ImageBackground>
     )

@@ -141,9 +141,14 @@ const Register = ({ navigation }: any) => {
                                 </View>
                                 <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHide} editable={!loading} placeholder='Nhập mật khẩu' value={PassWord} onChangeText={onChangePassWord} />
                             </View>
-                            <TouchableOpacity onPress={onClickShowAndHide}>
-                                <Icon name="eye" />
-                            </TouchableOpacity>
+                            {(ShowAndHide) ?
+                                (<TouchableOpacity onPress={onClickShowAndHide}>
+                                    <Icon name="eye-slash" />
+                                </TouchableOpacity>)
+                                :(<TouchableOpacity onPress={onClickShowAndHide}>
+                                    <Icon name="eye" />
+                                </TouchableOpacity>)
+                            }
                         </View>
                         {(RequirePassWord && PassWord.length < 1) ? (
                             <View>

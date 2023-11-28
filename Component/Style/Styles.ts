@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 30,
         fontWeight: "bold",
+        color:'black',
     },
     headerForm: {
         height: "10%",

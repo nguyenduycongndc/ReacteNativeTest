@@ -242,9 +242,14 @@ const SendOTP = ({ navigation }: any) => {
                                             </View>
                                             <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHide} editable={!loading} placeholder='Nhập mật khẩu mới' value={PassWordNew} onChangeText={onChangePassWordNew} />
                                         </View>
-                                        <TouchableOpacity onPress={onClickShowAndHide}>
-                                            <Icon name="eye" />
-                                        </TouchableOpacity>
+                                        {(ShowAndHide) ?
+                                            (<TouchableOpacity onPress={onClickShowAndHide}>
+                                                <Icon name="eye-slash" />
+                                            </TouchableOpacity>)
+                                            : (<TouchableOpacity onPress={onClickShowAndHide}>
+                                                <Icon name="eye" />
+                                            </TouchableOpacity>)
+                                        }
                                     </View>
                                     {(RequirePassWordNew && PassWordNew.length < 1) ? (
                                         <View>
@@ -263,9 +268,14 @@ const SendOTP = ({ navigation }: any) => {
                                             </View>
                                             <TextInput style={{ flex: 1 }} autoCorrect={false} secureTextEntry={!ShowAndHideConfirm} editable={!loading} placeholder='Nhập lại mật khẩu' value={ConfirmPassWord} onChangeText={onChangeConfirmPassWord} />
                                         </View>
-                                        <TouchableOpacity onPress={onClickShowAndHideConfirm}>
-                                            <Icon name="eye" />
-                                        </TouchableOpacity>
+                                        {(ShowAndHide) ?
+                                            (<TouchableOpacity onPress={onClickShowAndHideConfirm}>
+                                                <Icon name="eye-slash" />
+                                            </TouchableOpacity>)
+                                            : (<TouchableOpacity onPress={onClickShowAndHideConfirm}>
+                                                <Icon name="eye" />
+                                            </TouchableOpacity>)
+                                        }
                                     </View>
                                     {(RequireConfirmPassWord && ConfirmPassWord.length < 1) ? (
                                         <View>

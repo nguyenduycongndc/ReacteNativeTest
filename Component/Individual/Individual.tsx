@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, ImageBackground, Text, TextInput, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../Style/Styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { environment } from '../../environments/environments';
 import axios from 'axios';
+import { useGetToken } from '../../CustomHook/useGetToken';
 
 function LoadingAnimation() {
     return (
@@ -17,19 +17,22 @@ function LoadingAnimation() {
 
 
 const Individual = ({ navigation }: any) => {
-    const [Token, setToken] = useState("");
+    // const [Token, setToken] = useState("");
 
-    const handleSetToken = async () => {
-        try {
-            const token = await AsyncStorage.getItem('Token') || '';
-            setToken(JSON.parse(token as string));
-        } catch (error) {
-            console.log({ error });
-        }
-    }
-    useEffect(() => {
-        handleSetToken();
-    }, [])
+    // const handleSetToken = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('Token') || '';
+    //         setToken(JSON.parse(token as string));
+    //     } catch (error) {
+    //         console.log({ error });
+    //     }
+    // }
+    // useEffect(() => {
+    //     handleSetToken();
+    // }, [])
+
+
+    const Token = useGetToken();
     const configurationObject = {
         method: 'GET',
         url: `${environment.apiUrl}User/DetailUser`,

@@ -21,6 +21,7 @@ import Individual from './Component/Individual/Individual';
 import ChangePassWord from './Component/ChangePassWord/ChangePassWord';
 import DetailUser from './Component/DetailUser/DetailUser';
 import UploadImg from './Component/UploadImg/UploadImg';
+import Categories from './Component/Categories/Categories';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,12 @@ function TabRouter() {
         headerShown: false,
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />
+        ),
+      }} />
+      <Tab.Screen name="Categories" component={Categories} options={{
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="layers-triple" color={color} size={size} />
         ),
       }} />
       <Tab.Screen name="Individual" component={Individual} options={{
